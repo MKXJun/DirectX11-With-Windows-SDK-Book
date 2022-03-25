@@ -4,12 +4,6 @@
 
 > 注意：在翻阅HLSL文档的时候，要避开Effects11相关的内容。因为当前教程与Effects11是不兼容的。
 
-**[DirectX11 With Windows SDK完整目录](http://www.cnblogs.com/X-Jun/p/9028764.html)**
-
-**[Github项目源码](https://github.com/MKXJun/DirectX11-With-Windows-SDK)**
-
-**欢迎加入QQ群: 727623616 可以一起探讨DX11，以及有什么问题也可以在这里汇报。**
-
 # 数据类型
 
 ## 标量
@@ -478,7 +472,7 @@ n是一个可选的整数，从0开始。比如POSITION0, TEXCOORD1等等。
 
 所有的可编程着色器阶段使用通用着色器核心来实现相同的基础功能。此外，顶点着色阶段、几何着色阶段和像素着色阶段则提供了独特的功能，例如几何着色阶段可以生成新的图元或删减图元，像素着色阶段可以决定当前像素是否被抛弃等。下图展示了数据是怎么流向一个着色阶段，以及通用着色器核心与着色器内存资源之间的关系：
 
-![](../.gitbook/assets/HLSL/01.png)
+![](../assets/HLSL/01.png)
 
 **Input Data**：顶点着色器从输入装配阶段获取数据；几何着色器则从上一个着色阶段的输出获取等等。通过给形参引入可以使用的系统值可以提供额外的输入
 
@@ -573,9 +567,3 @@ float4 VS_Main(VertexIn vIn) : SV_Position
 ```
 
 有关常量缓冲区的打包规则，建议在阅读到时索引缓冲区、常量缓冲区一章时，再来参考杂项篇的HLSL常量缓冲区的打包规则。
-
-**[DirectX11 With Windows SDK完整目录](http://www.cnblogs.com/X-Jun/p/9028764.html)**
-
-**[Github项目源码](https://github.com/MKXJun/DirectX11-With-Windows-SDK)**
-
-**欢迎加入QQ群: 727623616 可以一起探讨DX11，以及有什么问题也可以在这里汇报。**
