@@ -268,6 +268,7 @@ cbuffer C1
 ## 例4.1的验证
 
 开启反汇编后，找到之前所放的常量缓冲区：
+
 ![image](..\assets\Packing\01.jpg)
 
 在这些样例中已经确保了常量缓冲区前面的所有值都已经打包好（16字节对齐）。
@@ -285,6 +286,8 @@ cbuffer C1
 
 ## 例4.2的验证
 
+
+
 ![image](..\assets\Packing\02.jpg)
 
 `v1`的偏移值为`2416`，`p1`构成单独的4D向量，`p2`会和后续的`v2`打包成新的4D向量，而不是单独打包。
@@ -294,6 +297,8 @@ cbuffer C1
 `(v1.p2.x, v2.x, v2.y, empty)`
 
 ## 例5.2的验证
+
+
 
 ![image](..\assets\Packing\03.jpg)
 
@@ -307,6 +312,9 @@ cbuffer C1
 `(v1[3].x, v1[3].y, v2.x, v2.y)`
 
 ## 例5.3的验证
+
+
+
 ![image](..\assets\Packing\04.jpg)
 
 
@@ -321,6 +329,9 @@ cbuffer C1
 `(v3.x, v3.y, v3.z, empty)`
 
 ## 例5.4的验证
+
+
+
 ![image](..\assets\Packing\05.jpg)
 
 因为数组的后面是结构体，而结构体要求前面的所有变量都要先打包好，所以数组的2个元素分别单独打包。
@@ -371,9 +382,11 @@ cbuffer CBNeverChange : register(b3)
 ```
 
 在图形调试器查看C++提供的字节数据，可以看到最后四个32位的传入是没有问题的
+
 ![image](..\assets\Packing\06.jpg)
 
 经过一番折腾，翻到像素着色器的反编译，发现里面有常量缓冲区数据偏移信息：
+
 ![](..\assets\Packing\07.jpg)
 
 仔细比对的话可以发现从`gNumDirLight`开始的字节偏移量出现了不是我想要的结果，本应该是`2400`的值，结果却是`2396`，导致原本赋给`gNumDirLight`和`gNumPointLight`为1的值，却赋给了`gNumPointLight`和`gNumSpotLight`。这也是我为什么要写出这篇文章的原因。

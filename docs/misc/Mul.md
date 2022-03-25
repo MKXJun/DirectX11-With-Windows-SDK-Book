@@ -114,13 +114,13 @@ dp4 dst, src0, src1
 
 为了了解`mul`函数是如何进行向量与矩阵的乘法运算，我们需要探讨一下它的汇编实现。这里我所使用的是`row_major`矩阵。首先是向量作为第一个参数的情况：
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\01.png)
+![](..\assets\Mul\01.png)
 
 可以看到这种运算方式实际上却是按照向量右乘矩阵的形式进行的运算。
 
 然后是将向量作为第二个参数的情况（仅单纯的参数交换）:
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\02.png)
+![](..\assets\Mul\02.png)
 
 无论是行向量左乘矩阵，还是列向量右乘矩阵，在汇编层面上都是用`dp4`的形式进行计算，这是因为对矩阵来说在内存上是以4个行向量的形式存储的，传递一行的寄存器向量比传递一列更简单，适合进行与列向量的运算，并且效率会更高。
 
@@ -172,29 +172,29 @@ VertexPosHWNormalTex VS(VertexPosNormalTex pIn)
 
 首先是`viewProj`经过计算后应该得到的值：
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\03.png)
+![](..\assets\Mul\03.png)
 
 这是向量左乘矩阵开始前四个向量寄存器的值(默认HLSL)：
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\04.png)
+![](..\assets\Mul\04.png)
 
 这是向量右乘矩阵开始前时四个向量寄存器的值(将`float4(pOut.PosW, 1.0f)`和`viewProj`交换)：
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\05.png)
+![](..\assets\Mul\05.png)
 
 也许有人会奇怪，怎么在开始运算前两边寄存器存储的内容会不一样。我们需要往前观察上一个语句产生的汇编(默认HLSL)：
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\06.png)
+![](..\assets\Mul\06.png)
 
 而将`float4(pOut.PosW, 1.0f)`和`viewProj`交换后，则汇编代码没有了转置操作:
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\07.png)
+![](..\assets\Mul\07.png)
 
 严格意义上说，00000000到0000001B的指令才是上图语句的实际执行内容，而0000001C到0000002B的代码则应是在计算`pOut.PosH = mul(float4(pOut.PosW, 1.0f), viewProj);`之前所进行的一系列额外操作。
 
 因此无论是行向量还是列向量，在执行完0000001B指令后，行主序矩阵`viewProj`的内存布局一定为：
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\08.png)
+![](..\assets\Mul\08.png)
 
 如果用行向量左乘该行主序矩阵，由于dp4运算需要按列取出这些寄存器的值，为此需要额外16条指令进行转置（0000001C到0000002B）。
 
@@ -206,7 +206,7 @@ VertexPosHWNormalTex VS(VertexPosNormalTex pIn)
 
 故对于`dp4`来说，最好是能够对一个**行向量**和**列主序矩阵**(取列主序矩阵的行，也就是取一行寄存器向量与行向量做点乘)操作，又或者是对一个**行主序矩阵**(取行主序矩阵的行与列向量做点乘)和**列矩阵**操作，这样都能有效避免转置。
 
-![](E:\Code\Book\DirectX11-With-Windows-SDK-Book\docs\assets\Mul\09.png)
+![](..\assets\Mul\09.png)
 
 # 总结
 

@@ -155,8 +155,10 @@ HRESULT WINAPI DXTraceW(_In_z_ const WCHAR* strFile, _In_ DWORD dwLine, _In_ HRE
 ```
 
 测试效果如下：
+
 ![](..\assets\HR\02.png)
 
 在调试输出窗口也可以看到：
+
 ![](..\assets\HR\03.png)
 
