@@ -1,4 +1,4 @@
-<!-- _sidebar.md -->
+<!-- docs/_sidebar.md -->
 
 - [**回到首页**](README.md)
 - **准备**
