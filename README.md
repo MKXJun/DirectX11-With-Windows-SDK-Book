@@ -62,7 +62,6 @@
 \
 
 
-{% hint style="danger" %}
 &#x20;**1. 考虑到现在DXTK库只是用到了它里面的键鼠类和纹理加载，现在已经单独提取出来使用，读者不需要过于关注这部分内容的实现细节。**
 
 &#x20;**2. 现在某些章节会有一些练习题，除了龙书里面有的部分进行挑选外，自己也尝试出了一些题目。但是题目并不会给出答案（大多数实现方法都并不唯一）**
@@ -70,7 +69,6 @@
 &#x20;**3. 本教程并不能代表Direct3D的方方面面，务必要善于利用下面参考资料中给予的MSDN文档来查询信息，培养自己的文档阅读能力。**&#x20;
 
 **4.如果你只是单纯为了做一款游戏，那么学习使用Unity 3D来开发可能会更适合您。**
-{% endhint %}
 
 ## 阅读顺序
 
@@ -84,7 +82,6 @@ Direct3D 11学起来并不容易。首先从**入门篇**开始，再根据其�
 
 **在开始教程之前务必下载一份源码**，教程中的源码不会给全，只是根据实际需要进行展开说明。**同时也希望能进去点个Star支持一下**。
 
-{% embed url="https://github.com/MKXJun/DirectX11-With-Windows-SDK" %}
 
 ![GitHub watchers](https://img.shields.io/github/watchers/MKXJun/DirectX11-With-Windows-SDK.svg?style=plastic)![GitHub stars](https://img.shields.io/github/stars/MKXJun/DirectX11-With-Windows-SDK.svg?style=plastic)![GitHub forks](https://img.shields.io/github/forks/MKXJun/DirectX11-With-Windows-SDK.svg?style=plastic)&#x20;
 
@@ -108,14 +105,10 @@ Direct3D 11学起来并不容易。首先从**入门篇**开始，再根据其�
 * [DirectXTK/Mouse(源码上有所修改)](https://github.com/Microsoft/DirectXTK/tree/master/Src)：不能和imgui同时使用
 * [DirectXTK/Keyboard(源码上有所修改)](https://github.com/Microsoft/DirectXTK/tree/master/Src)：不能和imgui同时使用
 
-{% hint style="info" %}
 **注意：**
 
 1. **目前教程仅支持VS2017(平台工具集v141)及更高版本！**
 2. 如果需要使用Direct2D/DWrite，Win7系统需要安装Service Pack 1以及KB2670838补丁，但目前更推荐使用ImGui
-{% endhint %}
-
-****
 
 **博客和项目维护不易，目前教程和项目仅由作者一人维持，精力有限。如果本系列教程对你有所帮助，希望能够扫码支持一下博主。**
 
