@@ -68,7 +68,7 @@ cb0[3].xyzw = (m41, m42, m43, m44);
 
 假设在HLSL的`cbuffer`为：
 
-```cpp
+```hlsl
 cbuffer cb : register(b0)
 {
     (row_major) matrix g_World;
@@ -130,7 +130,7 @@ dp4 dst, src0, src1
 
 先看一段HLSL代码：
 
-```cpp
+```hlsl
 cbuffer cb : register(b0)
 {
     row_major matrix gWorld;

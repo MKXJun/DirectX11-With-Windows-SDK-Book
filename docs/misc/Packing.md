@@ -7,7 +7,7 @@
 ## 1. C++中的结构体数据是以字节流的形式传输给HLSL的
 ### 例1.1
 若C++结构体和HLSL常量缓冲区如下：
-```cpp
+```hlsl
 // cpp
 struct S1
 {
@@ -29,7 +29,7 @@ cbuffer C1
 
 ## 2. HLSL常量缓冲区中的向量不允许拆分
 ### 例2.1
-```cpp
+```hlsl
 // cpp
 struct S1
 {
@@ -57,7 +57,7 @@ cbuffer C1
 `(p2.y, p2.z, empty, empty)`
 
 ### 例2.2
-```cpp
+```hlsl
 // HLSL
 cbuffer C1
 {
@@ -79,7 +79,7 @@ cbuffer C1
 
 ## 3. HLSL常量缓冲区中多个相邻的变量若有空缺则优先打包进同一个4D向量中
 ### 例3.1
-```cpp
+```hlsl
 // HLSL
 cbuffer C1
 {
@@ -99,7 +99,7 @@ cbuffer C1
 打包顺序是从最上面的变量开始往下的。
 
 ### 例3.2
-```cpp
+```hlsl
 // HLSL
 cbuffer C1
 {
@@ -117,7 +117,7 @@ cbuffer C1
 ## 4. 对于在常量缓冲区的结构体，也会进行打包操作
 通过几个例子来进行观察
 ### 例4.1
-```cpp
+```hlsl
 // HLSL
 struct S1
 {
@@ -142,7 +142,7 @@ cbuffer C1
 `(v3.x, v3.y, v3.z, empty)`
 
 ### 例4.2
-```cpp
+```hlsl
 // HLSL
 struct S1
 {
@@ -168,7 +168,7 @@ cbuffer C1
 ## 5. 对于在常量缓冲区的数组，需要特殊对待
 数组中的每一个元素都会独自打包，**但对于最后一个元素来说如果后续的变量不是数组、结构体且还有空缺，则可以进行打包操作**。
 ### 例5.1
-```cpp
+```hlsl
 // HLSL
 cbuffer C1
 {
@@ -185,7 +185,7 @@ cbuffer C1
 
 可以看到，一个本应该是16字节的数组变量实际上变成了64字节的4个4D向量，造成内存的大量浪费。如果真的要使用这种数组，下面的声明方式通过强制转换，可以保证没有空间浪费(C++不允许这么做)：
 
-```cpp
+```hlsl
 // HLSL
 cbuffer C1
 {
@@ -195,7 +195,7 @@ static float packArray[4]  = (float[4])v1;
 ```
 
 ### 例5.2
-```cpp
+```hlsl
 // HLSL
 cbuffer C1
 {
@@ -212,7 +212,7 @@ cbuffer C1
 `(v1[3].x, v1[3].y, v2.x, v2.y)`
 
 ### 例5.3
-```cpp
+```hlsl
 // HLSL
 struct S1
 {
@@ -238,7 +238,7 @@ cbuffer C1
 `(v3.x, v3.y, v3.z, empty)`
 
 ### 例5.4
-```cpp
+```hlsl
 // HLSL
 struct S1
 {
@@ -369,7 +369,7 @@ mCBNeverChange.numSpotLight = 0;
 ```
 
 HLSL代码如下：
-```cpp
+```hlsl
 cbuffer CBNeverChange : register(b3)
 {
 	DirectionalLight gDirLight[10];
