@@ -54,6 +54,7 @@
   - [HLSL语法入门](misc/HLSL.md)
   - [HR宏关于dxerr库的替代方案](misc/HR.md)
   - [ComPtr智能指针](misc/ComPtr.md)
+  - [RenderDoc图形调试](misc/RenderDoc.md)
   - [HLSL编译着色器的三种方法](misc/Compile.md)
   - [HLSL中矩阵的内存布局和mul函数探讨](../misc/Mul.md)
   - [深入理解HLSL常量缓冲区打包规则](misc/Packing.md)
