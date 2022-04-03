@@ -23,15 +23,15 @@
 
 现在以Rendering a Triangle项目为例，现在我们已经编写好的着色器文件有`Triangle.hlsli`, `Triangle_VS.hlsl`, `Triangle_PS.hlsl`这三个，它们存放项目在HLSL文件夹内。现在你可以将它拉进项目当中。
 
-![](https://img2018.cnblogs.com/blog/1172605/201812/1172605-20181204185753974-381761738.png)
+![](..\assets\Compile\04.png)
 
 其中`Triangle.hlsli`作为HLSL的头文件默认不参与项目的编译过程。
 
 而对于`Triangle_VS.hlsl`和`Triangle_PS.hlsl`，则在项目属性要这样设置：
 
-![](https://img2018.cnblogs.com/blog/1172605/201812/1172605-20181204190422570-1879878932.png)
+![](..\assets\Compile\05.png)
 
-![](https://img2018.cnblogs.com/blog/1172605/201812/1172605-20181204190253001-1235721971.png)
+![](..\assets\Compile\06.png)
 
 其中入口点名称指的是该着色器阶段最先开始调用的函数名。比如在C/C++/新建的.hlsl文件中，默认的入口点名称是main。而上面的例子中，我们希望让顶点着色器从`VS`函数开始运行，则需要指定入口点为`VS`。
 
@@ -39,7 +39,7 @@
 
 生成项目后，需要留意在输出窗口(生成)中是否出现了下面的内容：
 
-![](https://img2018.cnblogs.com/blog/1172605/201812/1172605-20181204222348751-969630600.png)
+![](..\assets\Compile\07.png)
 
 **只有出现了上述内容，才说明成功编译出对象文件，否则说明没有被编译出来。**如果你之前已经编译出对象文件，再编译时没有出现该输出结果，可能需要先删除之前编译出来的对象文件再试一次。
 
@@ -75,9 +75,9 @@ HR(md3dDevice->CreateInputLayout(VertexPosColor::inputLayout, ARRAYSIZE(VertexPo
 
 对于`Triangle_VS.hlsl`和`Triangle_PS.hlsl`，在项目属性要这样设置：
 
-![](https://img2018.cnblogs.com/blog/1172605/201904/1172605-20190415210445775-1567213103.png)
+![](..\assets\Compile\01.png)
 
-![](https://img2018.cnblogs.com/blog/1172605/201904/1172605-20190415210451796-361002442.png)
+![](..\assets\Compile\02.png)
 
 这里关于头文件的名称以及内部的全局变量名可以自行决定。
 
@@ -102,7 +102,7 @@ HR(m_pd3dDevice->CreateInputLayout(VertexPosColor::inputLayout, ARRAYSIZE(Vertex
 
 接下来就可以生成整个项目了，需要留意是否有红色部分的输出，否则可能没有成功编译出`.inc`文件(这可能会在已有`.inc`文件再次编译的时候导致出现问题，需要删除原来的`.inc`文件)。
 
-![](https://img2018.cnblogs.com/blog/1172605/201812/1172605-20181204212958311-1494507690.png)
+![](..\assets\Compile\03.png)
 
 由于上述两个头文件的产生(即着色器的编译)先于项目的编译，在没有产生这两个头文件的时候，你也可以忍着编译错误先把上述代码添加进去，然后编译的时候就一切正常了。
 
