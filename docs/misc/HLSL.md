@@ -74,9 +74,9 @@ vec0.a = 4.0f;		// 4.0f
 float4 vec0 = {1.0f, 2.0f, 3.0f, 4.0f}; 
 float3 vec1 = vec0.xyz;     // (1.0f, 2.0f, 3.0f)
 float2 vec2 = vec0.rg;      // (1.0f, 2.0f)
-float4 vec3 = vec0.zzxy;    // (4.0f, 4.0f, 1.0f, 2.0f)
-vec3.wxyz = vec3;           // (2.0f, 4.0f, 4.0f, 1.0f)
-vec3.yw = vec1.zz;           // (2.0f, 3.0f, 4.0f, 3.0f)
+float4 vec3 = vec0.zzxy;    // (3.0f, 3.0f, 1.0f, 2.0f)
+vec3.wxyz = vec3;           // (3.0f, 1.0f, 2.0f, 3.0f)
+vec3.yw = vec1.yy;           // (3.0f, 2.0f, 2.0f, 2.0f)
 ```
 
 ## 矩阵(matrix)
