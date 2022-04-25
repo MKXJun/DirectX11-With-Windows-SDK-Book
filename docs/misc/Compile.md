@@ -151,7 +151,7 @@ HRESULT D3DWriteBlobToFile(
 
 # CreateShaderFromFile函数的实现
 
-下面是`CreateShaderFromFile`函数的实现，**现在该函数已经放到了d3dUtil.h中**，需要依赖`dxerr`，你也可以自己修改这个函数的实现：
+下面是`CreateShaderFromFile`函数的实现，**现在该函数已经放到了d3dUtil.h中**：
 
 ```cpp
 // 安全COM组件释放宏
