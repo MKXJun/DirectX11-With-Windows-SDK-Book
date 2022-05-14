@@ -149,7 +149,7 @@ HRESULT D3DWriteBlobToFile(
 
 具体用法已经集成在下面的`CreateShaderFromFile`函数中了
 
-# CreateShaderFromFile函数的实现
+## CreateShaderFromFile函数的实现
 
 下面是`CreateShaderFromFile`函数的实现，**现在该函数已经放到了d3dUtil.h中**：
 
@@ -223,7 +223,61 @@ HR(m_pd3dDevice->CreateInputLayout(VertexPosColor::inputLayout, ARRAYSIZE(Vertex
     blob->GetBufferPointer(), blob->GetBufferSize(), m_pVertexLayout.GetAddressOf()));
 ```
 
-参考文章：
+# 方法4：使用fxc命令行程序+编写批处理+利用VS项目预先编译
+
+>  **注意：初学者只需要会用方法1或方法3来编译着色器即可，这条需要熟悉命令行，能尝试编写批处理，并且可能会修改到.vcxproj。**
+
+因为我一直挺好奇DirectXTK是怎么做到没有在项目属性中添加配置却能够在编译程序之前先调用命令行程序编译着色器，现在大概是找到门路了。
+
+## fxc命令行程序
+
+首先了解怎么使用fxc命令行程序来编译着色器，找到64位fxc.exe，有可能放在`C:\Program Files (x86)\Windows Kits\10\bin\10.0.XXXXX.0\x64\`，或者利用Everything等工具来寻找。
+
+打开命令行，跳转到fxc.exe所在位置，然后运行：
+
+```bat
+fxc /?
+```
+
+然后可以看到fxc编译选项的含义，下面列出一些常用的：
+
+| 选项             | 含义                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| `/T <profile>`   | 着色器模型，常用的`<profile>`有：`cs_4_0`, `vs_5_0`, `ps_5_0`等 |
+| `/E <name>`      | 入口点名称，以哪个函数名作为shader的入口                     |
+| `/I <include>`   | 附加包含路径                                                 |
+| `/Od`            | 禁用优化（调试着色器必须）                                   |
+| `/O{0,1,2,3}`    | 优化级别0到3，默认是1                                        |
+| `/Zi`            | 启用调试信息（调试着色器必须）                               |
+| `/Fo <file>`     | 输出编译好的二进制对象文件（通常指cso文件）                  |
+| `/Fh <file>`     | 输出包含二进制对象编码的头文件（如方法二）                   |
+| `/P <file>`      | 将预处理阶段后的文本保存到文件（必须单独使用）               |
+| `/D <id>=<text>` | 预定义宏                                                     |
+| `/Ges`           | 强制严格编译，可能不允许使用旧语法。                         |
+| `/nologo`        | 编译的时候不输出版权信息                                     |
+| `/WX`            | 警告视为错误                                                 |
+
+以第二章的HLSL文件为例，编译`Triangle_VS.hlsl`输出`Triangle_VS.cso`
+
+在Release模式下，与方法1等价的命令行为：
+
+``` bat
+fxc "path/to/Triangle_VS.hlsl" /E VS /Fo "path/to/Triangle_VS.cso" /T vs_5_0 /nologo
+```
+
+在Debug模式下，与方法1等价的命令行为：
+
+```bat
+fxc "path/to/Triangle_VS.hlsl" /Zi /Od /E VS /Fo "path/to/Triangle_VS.cso" /T vs_5_0 /nologo
+```
+
+而前面提到的`D3DCOMPILE_ENABLE_STRICTNESS`对应`/Ges`选项
+
+## 批处理
+
+
+
+# 参考文献
 
 [Compiling Shaders](https://docs.microsoft.com/zh-cn/windows/desktop/direct3dhlsl/dx-graphics-hlsl-part1#compiling-with-d3dcompilefromfile)
 
