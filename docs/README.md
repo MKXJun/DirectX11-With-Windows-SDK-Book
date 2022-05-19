@@ -60,10 +60,11 @@
 
 
 >**注意：**
->**1. 键鼠类源自DXTK的提取，纹理加载源自DirectXTex，现在已经单独提取出来使用，读者不需要过于关注这部分内容的实现细节。**
->**2. 部分项目使用了ImGui，而ImGui自带键鼠事件的处理，与键鼠类一定程度上是有冲突的，目前在使用ImGui的项目中不使用键鼠类。**
->**3. 现在某些章节会有一些练习题，除了龙书里面有的部分进行挑选外，自己也尝试出了一些题目。但是题目并不会给出答案（大多数实现方法都并不唯一）**
->**4. 本教程并不能代表Direct3D的方方面面，务必要善于利用下面参考资料中给予的MSDN文档来查询信息，培养自己的文档阅读能力。**
+></br>
+>**1. 键鼠类源自DXTK的提取，纹理加载源自DirectXTex，现在已经单独提取出来使用，读者不需要过于关注这部分内容的实现细节。**</br>
+>**2. 部分项目使用了ImGui，而ImGui自带键鼠事件的处理，与键鼠类一定程度上是有冲突的，目前在使用ImGui的项目中不使用键鼠类。**</br>
+>**3. 现在某些章节会有一些练习题，除了龙书里面有的部分进行挑选外，自己也尝试出了一些题目。但是题目并不会给出答案（大多数实现方法都并不唯一）**</br>
+>**4. 本教程并不能代表Direct3D的方方面面，务必要善于利用下面参考资料中给予的MSDN文档来查询信息，培养自己的文档阅读能力。**</br>
 >**5. 如果你只是单纯为了做一款游戏，那么学习使用Unity 3D等游戏引擎来开发可能会更适合您，本教程适用于图形/引擎开发路线的读者。**
 
 ## 阅读顺序
@@ -116,57 +117,42 @@ Direct3D 11学起来并不容易。首先从**入门篇**开始，再根据其�
 
 MSDN文档，同时推荐大家收藏以随时查阅：
 
-[Direct3D 11 Graphics API(Windows SDK)](https://docs.microsoft.com/zh-cn/windows/desktop/api/\_direct3d11/)
-
-[Direct3D 11 Graphics(Windows SDK)](https://docs.microsoft.com/en-us/windows/desktop/direct3d11/atoc-dx-graphics-direct3d-11)
-
-[DXGI API(Windows SDK)](https://docs.microsoft.com/en-us/windows/desktop/api/\_direct3ddxgi/)
-
-[DXGI(Windows SDK)](https://docs.microsoft.com/en-us/windows/desktop/direct3ddxgi/dx-graphics-dxgi)
-
-[DirectXMath](https://docs.microsoft.com/en-us/windows/win32/dxmath/ovw-xnamath-progguide)
-
-[HLSL](https://docs.microsoft.com/zh-cn/windows/desktop/direct3dhlsl/dx-graphics-hlsl)
+- [Direct3D 11 Graphics API(Windows SDK)](https://docs.microsoft.com/zh-cn/windows/desktop/api/\_direct3d11/)
+- [Direct3D 11 Graphics(Windows SDK)](https://docs.microsoft.com/en-us/windows/desktop/direct3d11/atoc-dx-graphics-direct3d-11)
+- [DXGI API(Windows SDK)](https://docs.microsoft.com/en-us/windows/desktop/api/\_direct3ddxgi/)
+- [DXGI(Windows SDK)](https://docs.microsoft.com/en-us/windows/desktop/direct3ddxgi/dx-graphics-dxgi)
+- [DirectXMath](https://docs.microsoft.com/en-us/windows/win32/dxmath/ovw-xnamath-progguide)
+- [HLSL](https://docs.microsoft.com/zh-cn/windows/desktop/direct3dhlsl/dx-graphics-hlsl)
 
 参考到的一些网站：
 
-[DirectX SDK Samples](https://github.com/walbourn/directx-sdk-samples)
-
-[Rastertek--DX11](http://www.rastertek.com/tutdx11.html)
-
-[DirectX Tool Kit](https://github.com/Microsoft/DirectXTK)
-
-[Windows SDK](https://developer.microsoft.com/zh-cn/windows/downloads/windows-10-sdk)
-
-[DirectXMath](https://github.com/Microsoft/DirectXMath)
-
-[DirectXTex](https://github.com/Microsoft/DirectXTex)
-
-[龙书网站](http://www.d3dcoder.net)
-
-[DXUT](https://github.com/Microsoft/DXUT)
+- [DirectX SDK Samples](https://github.com/walbourn/directx-sdk-samples)
+- [Rastertek--DX11](http://www.rastertek.com/tutdx11.html)
+- [DirectX Tool Kit](https://github.com/Microsoft/DirectXTK)
+- [Windows SDK](https://developer.microsoft.com/zh-cn/windows/downloads/windows-10-sdk)
+- [DirectXMath](https://github.com/Microsoft/DirectXMath)
+- [DirectXTex](https://github.com/Microsoft/DirectXTex)
+- [龙书网站](http://www.d3dcoder.net)
+- [DXUT](https://github.com/Microsoft/DXUT)
 
 参考书籍：
 
-Introduction to 3D Game Programming with DirectX 11
-
-Practical Rendering and Computation with Direct3D 11
-
-Mathematics for 3D Game Programming and Computer Graphics, Third Edition
-
-DirectX12 3D游戏开发实战
+- Introduction to 3D Game Programming with DirectX 11
+- Practical Rendering and Computation with Direct3D 11
+- Mathematics for 3D Game Programming and Computer Graphics, Third Edition
+- DirectX12 3D游戏开发实战
 
 ## 学完后还可以学什么
 
 下面是一些可以尝试的内容：
 
-* [GAMES101：现代计算机图形学入门（推荐）](https://sites.cs.ucsb.edu/\~lingqi/teaching/games101.html)
-* [GAMES202：高质量实时渲染](https://sites.cs.ucsb.edu/\~lingqi/teaching/games202.html)
-* [GAMES104：现代游戏引擎：从入门到实践](https://games-cn.org/games104/)
-* 现代图形库API：DirectX12、Vulkan
-* Real Time Rendering 4th
-* Ray Tracing in one Week
-* Physically Based Rendering 3rd
-* [全局光照技术](http://www.thegibook.com)
-* 光线追踪技术
-* Unity、Unreal引擎
+- [GAMES101：现代计算机图形学入门（推荐）](https://sites.cs.ucsb.edu/\~lingqi/teaching/games101.html)
+- [GAMES202：高质量实时渲染](https://sites.cs.ucsb.edu/\~lingqi/teaching/games202.html)
+- [GAMES104：现代游戏引擎：从入门到实践](https://games-cn.org/games104/)
+- 现代图形库API：DirectX12、Vulkan
+- Real Time Rendering 4th
+- Ray Tracing in one Week
+- Physically Based Rendering 3rd
+- [全局光照技术](http://www.thegibook.com)
+- 光线追踪技术
+- Unity、Unreal引擎
