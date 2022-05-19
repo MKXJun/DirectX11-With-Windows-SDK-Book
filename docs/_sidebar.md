@@ -54,6 +54,7 @@
 
 - **杂项篇**
   - [HLSL语法入门](misc/HLSL.md)
+  - [CPU和GPU计时器](misc/Timer.md)
   - [HR宏关于dxerr库的替代方案](misc/HR.md)
   - [ComPtr智能指针](misc/ComPtr.md)
   - [RenderDoc图形调试](misc/RenderDoc.md)
