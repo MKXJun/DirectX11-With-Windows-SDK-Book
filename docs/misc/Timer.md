@@ -488,9 +488,11 @@ m_GpuTimer.TryGetTime(nullptr); // 只是为了更新下面的平均值
 float avgTime = m_GpuTimer.AverageTime();
 ```
 
+下面是分块延迟渲染统计各个pass用时的例子：
 
+![image](..\assets\Timer\01.png)
 
 > **注意：**如果游戏开启了垂直同步，那么当前帧中的某一个查询很可能会受到垂直同步的影响被拖长，从而导致原本当前帧GPU计时器的平均用时总和会接近两个垂直同步信号的间隔。
 
-
+![image](..\assets\Timer\02.png)
 
