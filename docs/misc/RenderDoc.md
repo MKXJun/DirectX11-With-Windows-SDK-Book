@@ -250,6 +250,8 @@ inline void DXGISetDebugObjectName(_In_ IDXGIObject* object, _In_ std::nullptr_t
 
 接下来就开始进入到重点部分了，使用图形调试器的核心目的还是要观察着色器运行的时候遇到了哪些问题。当然有时候甚至会遇到该有的着色器却被跳过不执行的情况，这时候就先要去前面排查该绑定的资源、状态、着色器、输入是否都OK了，然后才是对上一个正常运行的着色器进行调试。
 
+> 注意：为了能正常调试着色器代码，你需要让项目转到Debug模式，并且编译着色器的时候要带上`D3DCOMPILE_DEBUG`和`D3DCOMPILE_SKIP_OPTIMIZATION`
+
 对于顶点着色器，在Mesh Viewer中选择要调试的顶点右键 - Debug this vertex即可
 
 ![image-20220330011212478](..\assets\RenderDoc\20.png)
