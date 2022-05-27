@@ -219,8 +219,6 @@ typedef struct DXGI_SAMPLE_DESC
 2. 如果你希望它能够产生完整的mipmap，可以指定为0，这样你就不需要手工去算这个纹理最大支持的mipmap等级数了，在创建好纹理后，可以再调用`ID3D11Texture2D::GetDesc`来查看实际的`MipLevels`值是多少
 3. 如果你指定的是其它的值，这里举个例子，该纹理的宽高为`400x400`，mip等级为3时，该纹理会产生`400x400`，`200x200`和`100x100`的mipmap
 
-对于经常作为着色器资源的纹理，通常是不能对其开启MSAA的，应当把`Count`设为1，`Quality`设为0
-
 **紧接着是`DXGI_FORMAT`：**
 
 它用于指定纹理存储的数据格式，最常用的就是`DXGI_FORMAT_R8G8B8A8_UNORM`了。这种格式在内存的排布可以用下面的结构体表示：
@@ -543,6 +541,16 @@ bool GameApp::InitResource()
 但是如果你想要以初始化的方式来创建带mipmap的`Texture2D`纹理，则在初始化的时候需要提供`D3D11_SUBRESOURCE_DATA`数组，元素数目为`MipLevels`.
 
 再或者如果你是要以初始化的方式来创建带mipmap的`Texture2D`纹理数组，则提供的元素数目为`MipLevels * ArraySize`.
+
+
+
+## 2D纹理的采样
+
+对于2D纹理，最常用的采样函数是`Sample`，而采样点的数目与所使用的`SamplerState`有关。使用点采样的时候只会选择距离最近的像素；而每当纹理的坐标轴从点采样替换为双线性采样时，采样点的个数要乘以2，而三线性采样(U、V、Mipmap)需要采样的像素个数为8.其中，UV方向的双线性采样行为会采样与当前纹理坐标邻近的四个像素。我们可以使用gather
+
+
+
+![image-20220526171631416](C:\Users\X_Jun\AppData\Roaming\Typora\typora-user-images\image-20220526171631416.png)
 
 # 2D纹理数组
 
@@ -1435,7 +1443,7 @@ HRESULT CreateWICTexture2DCubeFromFile(
 Texture2DMS<type, sampleCount> g_Texture : register(t*)
 ```
 
-非多重采样的纹理设置的sampleCount是1，除了`Texture2D`类型，还可以传入到`Texture2DMS<float4, 1>`中使用。但在创建着色器资源视图时，我们需要指定`ViewDimension`为`D3D11_SRV_DIMENSION_TEXTURE2DMS`
+由于是模板类型，sampleCount必须为字面值。非多重采样的纹理设置的sampleCount是1，除了`Texture2D`类型，还可以传入到`Texture2DMS<float4, 1>`中使用。但在创建着色器资源视图时，我们需要指定`ViewDimension`为`D3D11_SRV_DIMENSION_TEXTURE2DMS`
 
 `Texture2DMS`类型只支持读取，不支持采样：
 
@@ -1465,3 +1473,15 @@ void ID3D11DeviceContext::ResolveSubresource(
 - 两个不确定类型要求必须相同：如`DXGI_FORMAT_R32_TYPELESS`，那么在Format参数中可以指定`DXGI_FORMAT_R32_FLOAT`或`DXGI_FORMAT_R32_UINT`等
 
 若后备缓冲区创建的时候指定了多重采样，正常渲染完后到呈现(Present)时会自动调用`ResolveSubresource`方法得到用于显示的非多重采样纹理。当然这仅限于交换链使用的是**BLIT模型**而非FLIP模型，因为**翻转模型的后备缓冲区不能使用多重采样纹理**，要使用MSAA我们需要另外新建一个等宽高的MSAA纹理先渲染到此处，然后`ResolveSubresource`到后备缓冲区。
+
+当然还有一种办法是在渲染的时候自己手动在着色器做Resolve：
+
+```cpp
+float4 outputColor = 0.0f;
+for (int i = 0; i < sampleCount; ++i)
+{
+    outputColor += g_Texture.load(coord, i);
+}
+outputColor /= sampleCount
+```
+

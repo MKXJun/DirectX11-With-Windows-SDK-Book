@@ -1,9 +1,7 @@
 <!-- docs/_navbar.md -->
 
 - **准备**
-
-  - [构建Assimp](prepare/01.md)
-  - [新建项目](prepare/02.md)
+  - [新建项目](prepare/01.md)
 
 - **入门篇**
 

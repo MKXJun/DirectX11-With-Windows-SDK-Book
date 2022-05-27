@@ -4,8 +4,7 @@
 - [**项目下载**](https://github.com/MKXJun/DirectX11-With-Windows-SDK)
 
 - **准备**
-  - [构建Assimp](prepare/01.md)
-  - [新建项目](prepare/02.md)
+  - [新建项目](prepare/01.md)
 
 - **入门篇**
   - [01 DirectX11初始化](part1/01.md)
