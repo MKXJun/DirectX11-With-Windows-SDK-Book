@@ -48,6 +48,7 @@
   - [37 延迟渲染：光源剔除](part3/37.md)
   - [38 级联阴影：基础](part3/38.md)
   - [39 级联阴影：VSM、ESM和EVSM](part3/39.md)
+  - [40 抗锯齿：FXAA](part3/40.md)
 
 - **杂项篇**
   - [HLSL语法入门](misc/HLSL.md)
