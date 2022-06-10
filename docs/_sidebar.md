@@ -51,7 +51,8 @@
   - [38 级联阴影：基础](part3/38.md)
   - [39 级联阴影：VSM、ESM和EVSM](part3/39.md)
   - [40 抗锯齿：FXAA](part3/40.md)
-
+- **Dev分支**
+  - [19 模型加载：Assimp库](dev/19.md)
 - **杂项篇**
   - [HLSL语法入门](misc/HLSL.md)
   - [CPU和GPU计时器](misc/Timer.md)

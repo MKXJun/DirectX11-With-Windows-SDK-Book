@@ -2,7 +2,6 @@
 
 - **准备**
   - [新建项目](prepare/01.md)
-
 - **入门篇**
 
   - [01 DirectX11初始化](part1/01.md)
@@ -15,7 +14,6 @@
   - [08 D2D/D3D互操作性、DWrite显示文字](part1/08.md)
   - [09 纹理映射与采样器状态](part1/09.md)
   - [10 Transform实现的摄像机与GameObject](part1/10.md)
-
 - **进阶篇**
   - [11 混合状态](part2/11.md)
   - [12 深度/模板状态、平面镜反射绘制](part2/12.md)
@@ -32,7 +30,6 @@
   - [23 立方体映射：动态天空盒](part2/23.md)
   - [24 Render-To-Texture](part2/24.md)
   - [25 法线贴图](part2/25.md)
-
 - **高级篇**
   - [26 计算着色器：入门](part3/26.md)
   - [27 计算着色器：双调排序](part3/27.md)
@@ -49,7 +46,8 @@
   - [38 级联阴影：基础](part3/38.md)
   - [39 级联阴影：VSM、ESM和EVSM](part3/39.md)
   - [40 抗锯齿：FXAA](part3/40.md)
-
+- **Dev分支**
+  - [19 模型加载：Assimp库](dev/19.md)
 - **杂项篇**
   - [HLSL语法入门](misc/HLSL.md)
   - [CPU和GPU计时器](misc/Timer.md)
