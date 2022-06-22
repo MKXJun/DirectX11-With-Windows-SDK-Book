@@ -2,14 +2,14 @@
 
 在Direct3D 11中，缓冲区属于其中一种资源类型，它在内存上的布局是一维线性的。根据HLSL支持的类型以及C++的使用情况，缓冲区可以分为下面这些类型：
 
-1. 顶点缓冲区(Vertex Buffer)
+1. 顶点缓冲区(Vertex Buffer)，包括实例缓冲区、流输出缓冲区
 2. 索引缓冲区(Index Buffer)
 3. 常量缓冲区(Constant Buffer)
 4. 有类型的缓冲区(Typed Buffer)
 5. 结构化缓冲区(Structured Buffer)
 6. 追加/消耗缓冲区(Append/Consume Buffer)
 7. 字节地址缓冲区(Byte Address Buffer)
-8. 间接参数缓冲区(Indirect Argument Buffer)(可能不施工)
+8. 间接参数缓冲区(Indirect Argument Buffer)
 
 因此这一章主要讲述上面这些资源的创建和使用方法
 
@@ -25,125 +25,27 @@
 
 ## 顶点输入布局
 
-由于内容重复，可以[点此跳转](https://www.cnblogs.com/X-Jun/p/9031959.html#_label2)进行回顾
+[点此跳转](part1/02?id=输入布局input-layout)进行回顾
 
-## CreateVertexBuffer函数--创建顶点缓冲区
+## 多顶点缓冲区输入
 
-顶点缓冲区的创建需要区分下面两种情况：
+[点此跳转](part2/19?id=多顶点缓冲区输入)进行回顾
 
-1. 顶点数据是否需要动态更新
-2. 是否需要绑定到流输出
+## 其它顶点缓冲区
 
-如果顶点缓冲区在创建的时候提供了`D3D11_SUBRESOURCE_DATA`来完成初始化，并且之后都不需要更新，则可以使用`D3D11_USAGE_IMMUTABLE`。
+在项目的项目代码中不会提供专门的顶点缓冲区创建类，因为创建一个顶点缓冲区的操作相对比较简单，而且随着几何体数据创建以及模型加载功能的支持，普通的顶点缓冲区不需要我们来创建了。而我们应该关注的有如下缓冲区：
 
-如果顶点缓冲区需要频繁更新，则可以使用`D3D11_USAGE_DYNAMIC`，并允许CPU写入(`D3D11_CPU_ACCESS_WRITE`)。
-
-如果顶点缓冲区需要绑定到流输出，则说明顶点缓冲区需要允许GPU写入，可以使用`D3D11_USAGE_DEFAULT`，并且需要提供绑定标签`D3D11_BIND_STREAM_OUTPUT`。 
-
-下图说明了顶点缓冲区可以绑定的位置：
-
-![](..\assets\Buffer\02.png)
+- 实例缓冲区，对应第20章的内容
+- 动态顶点缓冲区，即创建时使用`D3D11_USAGE_DYNAMIC`，并允许CPU写入(`D3D11_CPU_ACCESS_WRITE`)。
+- 支持流输出的顶点缓冲区，对应16章的内容，35章是该缓冲区的应用
 
 顶点缓冲区不需要创建资源视图，它可以直接绑定到输入装配阶段或流输出阶段。
-
-创建顶点缓冲区和一般的创建缓冲区函数如下：
-
-```cpp
-// ------------------------------
-// CreateBuffer函数
-// ------------------------------
-// 创建缓冲区
-// [In]d3dDevice			D3D设备
-// [In]data					初始化结构化数据
-// [In]byteWidth			缓冲区字节数
-// [Out]structuredBuffer	输出的结构化缓冲区
-// [In]usage				资源用途
-// [In]bindFlags			资源绑定标签
-// [In]cpuAccessFlags		资源CPU访问权限标签
-// [In]structuredByteStride 每个结构体的字节数
-// [In]miscFlags			资源杂项标签
-HRESULT CreateBuffer(
-	ID3D11Device * d3dDevice,
-	void * data,
-	UINT byteWidth,
-	ID3D11Buffer ** buffer,
-	D3D11_USAGE usage,
-	UINT bindFlags,
-	UINT cpuAccessFlags,
-	UINT structureByteStride,
-	UINT miscFlags)
-{
-	D3D11_BUFFER_DESC bufferDesc;
-	bufferDesc.Usage = usage;
-	bufferDesc.ByteWidth = byteWidth;
-	bufferDesc.BindFlags = bindFlags;
-	bufferDesc.CPUAccessFlags = cpuAccessFlags;
-	bufferDesc.StructureByteStride = structureByteStride;
-	bufferDesc.MiscFlags = miscFlags;
-
-	D3D11_SUBRESOURCE_DATA initData;
-	ZeroMemory(&initData, sizeof(initData));
-	initData.pSysMem = data;
-
-	return d3dDevice->CreateBuffer(&bufferDesc, &initData, buffer);
-}
-
-
-// ------------------------------
-// CreateVertexBuffer函数
-// ------------------------------
-// [In]d3dDevice			D3D设备
-// [In]data					初始化数据
-// [In]byteWidth			缓冲区字节数
-// [Out]vertexBuffer		输出的顶点缓冲区
-// [InOpt]dynamic			是否需要CPU经常更新
-// [InOpt]streamOutput		是否还用于流输出阶段(不能与dynamic同时设为true)
-HRESULT CreateVertexBuffer(
-	ID3D11Device * d3dDevice,
-	void * data,
-	UINT byteWidth,
-	ID3D11Buffer ** vertexBuffer,
-	bool dynamic,
-	bool streamOutput)
-{
-	UINT bindFlags = D3D11_BIND_VERTEX_BUFFER;
-	D3D11_USAGE usage;
-	UINT cpuAccessFlags = 0;
-	if (dynamic && streamOutput)
-	{
-		return E_INVALIDARG;
-	}
-	else if (!dynamic && !streamOutput)
-	{
-		usage = D3D11_USAGE_IMMUTABLE;
-	}
-	else if (dynamic)
-	{
-		usage = D3D11_USAGE_DYNAMIC;
-		cpuAccessFlags |= D3D11_CPU_ACCESS_WRITE;
-	}
-	else
-	{
-		bindFlags |= D3D11_BIND_STREAM_OUTPUT;
-		usage = D3D11_USAGE_DEFAULT;
-	}
-
-	return CreateBuffer(d3dDevice, data, byteWidth, vertexBuffer,
-		usage, bindFlags, cpuAccessFlags, 0, 0);
-}
-```
-
-## 实例缓冲区(Instanced Buffer)
-
-由于涉及到硬件实例化，推荐直接跳到[硬件实例化](https://www.cnblogs.com/X-Jun/p/9702966.html#_label1)一章阅读。
 
 # 索引缓冲区(Index Buffer)
 
 索引缓冲区通常需要与顶点缓冲区结合使用，它的作用就是以索引的形式来引用顶点缓冲区中的某一顶点，并按索引缓冲区的顺序和图元类型来组装图元。它可以有效地减少顶点缓冲区中重复的顶点数据，从而减小网格模型占用的数据大小。使用相同的索引值就可以多次引用同一个顶点。
 
-![](..\assets\Buffer\03.png)
-
-索引缓冲区的使用不需要创建资源视图，它仅用于输入装配阶段，并且在装配的时候你需要指定每个索引所占的字节数：
+索引缓冲区的使用同样不需要创建资源视图，它仅用于输入装配阶段，并且在装配的时候你需要指定每个索引所占的字节数：
 
 | DXGI_FORMAT          | 字节数 | 索引范围     |
 | -------------------- | ------ | ------------ |
@@ -155,59 +57,16 @@ HRESULT CreateVertexBuffer(
 
 ![](..\assets\Buffer\04.png)
 
-## CreateIndexBuffer函数--创建索引缓冲区
+由于在创建几何体数据 或者 模型加载时会自动创建索引缓冲区，这里我们不会为其设计具体的类。
 
-索引缓冲区的创建只考虑数据是否需要动态更新。
-
-如果索引缓冲区在创建的时候提供了`D3D11_SUBRESOURCE_DATA`来完成初始化，并且之后都不需要更新，则可以使用`D3D11_USAGE_IMMUTABLE`
-
-如果索引缓冲区需要频繁更新，则可以使用`D3D11_USAGE_DYNAMIC`，并允许CPU写入(`D3D11_CPU_ACCESS_WRITE`)。
-
-
-
-
-
-
-```cpp
-// ------------------------------
-// CreateIndexBuffer函数
-// ------------------------------
-// [In]d3dDevice			D3D设备
-// [In]data					初始化数据
-// [In]byteWidth			缓冲区字节数
-// [Out]indexBuffer			输出的索引缓冲区
-// [InOpt]dynamic			是否需要CPU经常更新
-HRESULT CreateIndexBuffer(
-	ID3D11Device * d3dDevice,
-	void * data,
-	UINT byteWidth,
-	ID3D11Buffer ** indexBuffer,
-	bool dynamic)
-{
-	D3D11_USAGE usage;
-	UINT cpuAccessFlags = 0;
-	if (dynamic)
-	{
-		usage = D3D11_USAGE_DYNAMIC;
-		cpuAccessFlags |= D3D11_CPU_ACCESS_WRITE;
-	}
-	else
-	{
-		usage = D3D11_USAGE_IMMUTABLE;
-	}
-
-	return CreateBuffer(d3dDevice, data, byteWidth, indexBuffer,
-		usage, D3D11_BIND_INDEX_BUFFER, cpuAccessFlags, 0, 0);
-}
-```
 
 # 常量缓冲区(Constant Buffer)
 
-常量缓冲区是我们接触到的第一个可以给所有可编程着色器程序使用的缓冲区。由于着色器函数的形参没法从C++端传入，我们只能通过类似全局变量的方式来让着色器函数访问，这些参数被打包在一个常量缓冲区中。而C++可以通过创建对应的常量缓冲区来绑定到HLSL对应的`cbuffer`，以实现从C++到HLSL的数据的传递。C++的常量缓冲区是以字节流来对待；而HLSL的`cbuffer`内部可以像结构体那样包含各种类型的参数，而且还需要注意它的打包规则。
+常量缓冲区是我们接触到的第一个可以给所有可编程着色器程序使用的缓冲区。HLSL中需要由C++上传的数据被打包在一个常量缓冲区中。而C++可以通过创建常量缓冲区，并绑定到渲染管线上来让HLSL根据`cbuffer`的布局去解释传入的数据，以实现从C++到HLSL的数据的传递。C++的常量缓冲区是以字节流来对待；而HLSL的`cbuffer`内部可以像结构体那样包含各种类型的参数，而且还需要注意它的打包规则。
 
 关于常量缓冲区，有太多值得需要注意的细节了：
 
-1. 每个着色器阶段最多允许**15个常量缓冲区**，并且每个缓冲区最多可以容纳**4096个标量**。HLSL的`cbuffer`需要指定`register(b#)`, `#`的范围为0到14
+1. 每个着色器阶段最多允许**16个常量缓冲区（包括1个全局常量缓冲区和1个着色器形参常量缓冲区）**，并且每个缓冲区最多可以容纳**4096个标量**。我们在HLSL创建的`cbuffer`需要指定`register(b#)`, `#`的范围为0到14
 2. 在C++创建常量缓冲区时大小必须为**16字节的倍数**，因为HLSL的常量缓冲区本身以及对它的读写操作需要严格按**16字节对齐**
 3. 对常量缓冲区的成员使用`packoffset`修饰符可以指定起始向量和分量位置
 4. 在更新常量缓冲区时由于数据是提交完整的字节流数据到GPU，会导致HLSL中`cbuffer`的所有成员都被更新。为了减少不必要的更新，可以根据这些参数的更新频率划分出多个常量缓冲区以节省带宽资源
@@ -229,67 +88,13 @@ cbuffer CBChangesRarely : register(b2)
 }
 ```
 
-## CreateConstantBuffer函数--创建常量缓冲区
-
-常量缓冲区的创建需要区分下面两种情况：
-
-1. 是否需要CPU经常更新
-2. 是否需要GPU更新
-
-如果常量缓冲区在创建的时候提供了`D3D11_SUBRESOURCE_DATA`来完成初始化，并且之后都不需要更新，则可以使用`D3D11_USAGE_IMMUTABLE`。
-
-如果常量缓冲区需要频繁更新，则可以使用`D3D11_USAGE_DYNAMIC`，并允许CPU写入(`D3D11_CPU_ACCESS_WRITE`)。
-
-如果常量缓冲区在较长的一段时间才需要更新一次，则可以考虑使用`D3D11_USAGE_DEFAULT`。
+由于从19章开始使用了`EffectHelper`来进行着色器资源、常量缓冲区等管理，我们也不需要在C++代码层面上创建常量缓冲区并自己手工管理。这里不详细展开。
 
 下图说明了常量缓冲区可以绑定的位置：
 
 ![](..\assets\Buffer\06.png)
 
 常量缓冲区的使用同样不需要创建资源视图。
-
-```cpp
-// ------------------------------
-// CreateConstantBuffer函数
-// ------------------------------
-// [In]d3dDevice                D3D设备
-// [In]data                     初始化数据
-// [In]byteWidth                缓冲区字节数，必须是16的倍数
-// [Out]constantBuffer          输出的常量缓冲区
-// [InOpt]cpuUpdates            是否允许CPU更新
-// [InOpt]gpuUpdates            是否允许GPU更新
-HRESULT CreateConstantBuffer(
-	ID3D11Device * d3dDevice,
-	void * data,
-	UINT byteWidth,
-	ID3D11Buffer ** constantBuffer,
-	bool cpuUpdates,
-	bool gpuUpdates)
-{
-	D3D11_USAGE usage;
-	UINT cpuAccessFlags = 0;
-	if (cpuUpdates && gpuUpdates)
-	{
-		return E_INVALIDARG;
-	}
-	else if (!cpuUpdates && !gpuUpdates)
-	{
-		usage = D3D11_USAGE_IMMUTABLE;
-	}
-	else if (cpuUpdates)
-	{
-		usage = D3D11_USAGE_DYNAMIC;
-		cpuAccessFlags |= D3D11_CPU_ACCESS_WRITE;
-	}
-	else
-	{
-		usage = D3D11_USAGE_DEFAULT;
-	}
-
-	return CreateBuffer(d3dDevice, data, byteWidth, constantBuffer,
-		usage, D3D11_BIND_CONSTANT_BUFFER, cpuAccessFlags, 0, 0);
-}
-```
 
 # 有类型的缓冲区(Typed Buffer)
 
@@ -301,7 +106,7 @@ HRESULT CreateConstantBuffer(
 Buffer<float4> g_Buffer : register(t0);
 ```
 
-需要留意的是，当前缓冲区和纹理需要共用纹理寄存器，即t#，因此要注意和纹理避开使用同一个寄存器槽。
+需要留意的是，当前缓冲区和纹理需要共用纹理寄存器，即t#（其实应该统称为着色器资源寄存器），因此要注意和纹理避开使用同一个寄存器槽位。
 
 如果是可读写的缓冲区类型，则声明方式如下：
 
@@ -733,5 +538,4 @@ uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 uavDesc.Buffer.NumElements = width * height;
 uavDesc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
 ```
-
 
