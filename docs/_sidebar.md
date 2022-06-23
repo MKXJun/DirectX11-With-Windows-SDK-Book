@@ -10,7 +10,7 @@
   - [03 索引缓冲区、常量缓冲区](part1/03.md)
   - [04 变换](part1/04.md)
   - [05 DirectXMath数学库](part1/05.md)
-  - [06 键盘和鼠标输入](part1/06.md)
+  - [06 使用ImGui](part1/06.md)
   - [07 光照、常用几何模型、光栅化状态](part1/07.md)
   - [08 D2D/D3D互操作性、DWrite显示文字](part1/08.md)
   - [09 纹理映射与采样器状态](part1/09.md)
@@ -59,3 +59,6 @@
   - [深入理解与使用2D纹理资源](misc/Texture2D.md)
   - [深入理解与使用缓冲区资源](misc/Buffer.md)
   - [深入理解Effects11、着色器反射机制](misc/Effects.md)
+
+- **历史归档**
+  - [键鼠类](archive/Mouse_and_Keyboard.md)
