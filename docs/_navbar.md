@@ -5,19 +5,19 @@
 - **入门篇**
 
   - [01 DirectX11初始化](part1/01.md)
-  - [02 顶点/像素着色器的创建、顶点缓冲区](part1/02.md)
+  - [02 顶点/像素着色器、顶点缓冲区](part1/02.md)
   - [03 索引缓冲区、常量缓冲区](part1/03.md)
   - [04 变换](part1/04.md)
   - [05 DirectXMath数学库](part1/05.md)
   - [06 使用ImGui](part1/06.md)
-  - [07 光照、常用几何模型、光栅化状态](part1/07.md)
-  - [08 D2D/D3D互操作性、DWrite显示文字](part1/08.md)
+  - [07 光照、几何模型、光栅化状态](part1/07.md)
+  - [08 Direct2D交互、DWrite显示文字](part1/08.md)
   - [09 纹理映射与采样器状态](part1/09.md)
-  - [10 Transform实现的摄像机与GameObject](part1/10.md)
+  - [10 变换类、摄像机、游戏对象](part1/10.md)
 - **进阶篇**
   - [11 混合状态](part2/11.md)
-  - [12 深度/模板状态、平面镜反射绘制](part2/12.md)
-  - [13 简易Effects框架、阴影效果绘制](part2/13.md)
+  - [12 深度/模板状态、平面镜反射](part2/12.md)
+  - [13 简易Effects框架、阴影投影](part2/13.md)
   - [14 深度测试](part2/14.md)
   - [15 几何着色器初探](part2/15.md)
   - [16 流输出阶段](part2/16.md)
@@ -30,11 +30,15 @@
   - [23 立方体映射：动态天空盒](part2/23.md)
   - [24 Render-To-Texture](part2/24.md)
   - [25 法线贴图](part2/25.md)
+  - 
+- **归档**
+  - [键鼠类](archive/Mouse_and_Keyboard.md)
+
 - **高级篇**
   - [26 计算着色器：入门](part3/26.md)
   - [27 计算着色器：双调排序](part3/27.md)
   - [28 计算着色器：波浪](part3/28.md)
-  - [29 计算着色器：顺序无关透明度](part3/29.md)
+  - [29 计算着色器：OIT](part3/29.md)
   - [30 计算着色器：高斯模糊](part3/30.md)
   - [31 阴影贴图](part3/31.md)
   - [32 SSAO](part3/32.md)
@@ -44,7 +48,7 @@
   - [36 延迟渲染：基础](part3/36.md)
   - [37 延迟渲染：光源剔除](part3/37.md)
   - [38 级联阴影：基础](part3/38.md)
-  - [39 级联阴影：VSM、ESM和EVSM](part3/39.md)
+  - [39 阴影技术：VSM、ESM](part3/39.md)
   - [40 抗锯齿：FXAA](part3/40.md)
 - **杂项篇**
   - [HLSL语法入门](misc/HLSL.md)
@@ -58,5 +62,3 @@
   - [深入理解与使用2D纹理资源](misc/Texture2D.md)
   - [深入理解与使用缓冲区资源](misc/Buffer.md)
   - [深入理解Effects11、着色器反射机制](misc/Effects.md)
-- **历史归档**
-  - [键鼠类](archive/Mouse_and_Keyboard.md)
