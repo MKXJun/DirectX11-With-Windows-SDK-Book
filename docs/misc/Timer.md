@@ -260,7 +260,7 @@ void GpuTimer::Init(ID3D11Device* device, ID3D11DeviceContext* deviceContext, si
 
 在调用`Init()`后，我们就可以开始调用`Start()`来给命令队列插入起始时间戳了。但在此之前，我们需要先介绍我们需要给命令队列插入的具体是什么。
 
-## ID3D11Device::CreateQueue--创建GPU查询
+## ID3D11Device::CreateQuery--创建GPU查询
 
 为了创建GPU查询，我们需要先填充`D3D11_QUERY_DESC`结构体：
 
